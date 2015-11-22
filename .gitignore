@@ -2,3 +2,5 @@
 *.pyc
 archive/
 data/
+logger1/
+logger2/

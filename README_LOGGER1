@@ -1,0 +1,29 @@
+Anemometer 2011-10-12
+
+To retrieve anemometer station data:  pull SD card from logger and copy to computer
+
+To retrieve TCC data:scp tron@hven:~/logs/tcc/[date] ~/anemometer/logs/
+where [date] is the the filename or names of the tcc logs
+
+To retireve telmech data: scp tron@hven:~/logs/telmech/[date] .
+where [date] is the the filename or names of the telmech logs
+
+Locations:
+  Logger 1:
+	an0/wv0: [0,1,2,15]
+	  front dome: 2011-08-24 ->
+	an1/wv1: [0,4,5,16]
+	  lower right: 2011-08-24 ->
+	an2/wv2: [0,7,8,18]
+	  lower left:  2011-08-24 ->
+
+  Logger 2:
+	an0/wv0:
+	  middle right: 2011-11-07 -> 2012-05-01
+	an1/wv1:
+	  top right: 2011-11-07 -> 2012-05-01
+	an2/wv2: 
+	  roof: 2011-11-07 -> 2012-01-05
+	  stairwell: 2012-01-06 -> 2012-02-03
+	  catwalk right: 2012-03-31 -> 2012-05-01
+	  catwalk left: 2012-05-01 ->
