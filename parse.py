@@ -14,9 +14,11 @@ from datetime import datetime
 
 class parse(object):
 
-    def __init__(self):
+    def __init__(self, direc):
         self.homedir = os.getcwd() #where this script is
-        self.datapath = self.homedir + '/data' #where the data is
+        self.dir = direc;
+        self.logdir = self.homedir + self.dir;
+        self.datapath = self.logdir + '/data' #where the data is
         self.files = np.array(os.listdir(self.datapath)) #list of files of data
         self.prog = 0; #keeps track of progress
         self.filestat = np.array(os.listdir(self.datapath))
@@ -29,9 +31,9 @@ class parse(object):
     def addHeaders(self,headers):
         j = 0;
         for f in self.files: 
-            os.chdir(self.homedir)
+            os.chdir(self.logdir)
             if(self.reheader):
-                os.chdir(self.homedir + '/processed')
+                os.chdir(self.logdir+ '/processed')
             else:
                 os.chdir(self.datapath)
             if f[0] != '.':
@@ -42,11 +44,11 @@ class parse(object):
                 #headers = np.array(["Date/Time","AN0Speed","AN0Gust","AN0Pulse","AN1Speed","AN1Gust","AN1Pulse","AN2Speed","AN2Gust","AN2Pulse","CNT0","CNT1","CNT2","Wdir(Not Used)","Analog0","WV0","WV1","TempC","WV2","Analog5","Analog6","Analog7","?(Not Used)"])[np.newaxis];
                 a = np.concatenate((headers,p), axis=0);
                 if(self.reheader == False):
-                    os.chdir(self.homedir + '/withHeaders')
+                    os.chdir(self.logdir + '/withHeaders')
                 np.savetxt(f,a, delimiter=',',fmt="%s")
                 print f;
             j = j + 1;
-        os.chdir(self.homedir)
+        os.chdir(self.logdir)
 
 
 
@@ -55,7 +57,7 @@ class parse(object):
     #with selected data columns in a new directory '/processed'
     def reorder(self):
         print "headers"
-        self.path = self.homedir + '/withHeaders';
+        self.path = self.logdir + '/withHeaders';
         os.chdir(self.path)
         print os.getcwd()
         self.files = np.array(os.listdir(self.path))
@@ -113,24 +115,38 @@ class parse(object):
                 loc1 = np.transpose(loc1);
                 loc2 = np.transpose(loc2);
                 times = np.c_[times,loc0]
-                times = np.c_[times,a['AN0Speed']]
-                times = np.c_[times,a['WV0']]
-                times = np.c_[times,loc1]
-                times = np.c_[times,a['AN1Speed']]
-                times = np.c_[times,a['WV1']]
-                times = np.c_[times,loc2]
-                times = np.c_[times,a['AN2Speed']]
-                times = np.c_[times,a['WV2']]
-                os.chdir(self.homedir + '/processed')
+                if self.dir == '/log1':
+                    times = np.c_[times,a['AN0Speed']]
+                    times = np.c_[times,a['WV0']]
+                    times = np.c_[times,loc1]
+                    times = np.c_[times,a['AN1Speed']]
+                    times = np.c_[times,a['WV1']]
+                    times = np.c_[times,loc2]
+                    times = np.c_[times,a['AN2Speed']]
+                    times = np.c_[times,a['WV2']]
+                else:
+                    times = np.c_[times,a['AN3Speed']]
+                    times = np.c_[times,a['WV3']]
+                    times = np.c_[times,loc1]
+                    times = np.c_[times,a['AN4Speed']]
+                    times = np.c_[times,a['WV4']]
+                    times = np.c_[times,loc2]
+                    times = np.c_[times,a['AN5Speed']]
+                    times = np.c_[times,a['WV5']]
+                os.chdir(self.logdir + '/processed')
                 np.savetxt(f,times, delimiter=',',fmt="%s")
                 filetemp = pd.read_csv(f)
                 np.savetxt(f,times, delimiter=',',fmt="%s")
-                os.chdir(self.homedir + '/withHeaders')
+                os.chdir(self.logdir + '/withHeaders')
                 #print self.files[j]
         j += 1;
     #os.chdir(self.homedir)
         self.reheader = True
-        self.addHeaders(np.array(["Date/Time","AN0Loc","AN0Speed","WV0","AN1Loc","AN1Speed","WV1","AN2Loc","AN2Speed","WV2"])[np.newaxis]);
+        if self.dir == '/log1':
+            self.addHeaders(np.array(["Date/Time","AN0Loc","AN0Speed","WV0","AN1Loc","AN1Speed","WV1","AN2Loc","AN2Speed","WV2"])[np.newaxis]);
+        else:
+            self.addHeaders(np.array(["Date/Time","AN3Loc","AN3Speed","WV3","AN4Loc","AN4Speed","WV4","AN5Loc","AN5Speed","WV5"])[np.newaxis]);
+
         self.prog = self.prog + 1;
         self.progress();
         
@@ -141,7 +157,34 @@ class parse(object):
         
         
 if __name__ == "__main__":
-    h = parse();
-    #headers = np.array()
+    h = parse('/log1');
+    l1files = h.files;
     h.addHeaders(headers = np.array(["Date/Time","AN0Speed","AN0Gust","AN0Pulse","AN1Speed","AN1Gust","AN1Pulse","AN2Speed","AN2Gust","AN2Pulse","CNT0","CNT1","CNT2","Wdir(Not Used)","Analog0","WV0","WV1","TempC","WV2","Analog5","Analog6","Analog7","?(Not Used)"])[np.newaxis]);
     h.reorder();
+    os.chdir(h.homedir);
+    g = parse('/log2');
+    l2files = g.files;
+    g.addHeaders(headers = np.array(["Date/Time","AN3Speed","AN3Gust","AN3Pulse","AN4Speed","AN4Gust","AN4Pulse","AN5Speed","AN5Gust","AN5Pulse","CNT3","CNT4","CNT5","Wdir(Not Used)","Analog0","WV3","WV4","TempC","WV5","Analog5","Analog6","Analog7","?(Not Used)"])[np.newaxis]);
+    g.reorder();
+    os.chdir(h.homedir);
+    os.mkdir('processedData')
+
+    
+    for f in l1files:
+        if f in l2files:
+            if f[0] != '.':
+                a1 = open(h.logdir + '/processed/' + f, 'rt')
+                p1 = pd.read_csv(a1);
+                a2 = open(g.logdir + '/processed/' + f, 'rt')
+                p2 = pd.read_csv(a2)
+                print p2;
+                p2 = p2[["AN3Loc","AN3Speed","WV3","AN4Loc","AN4Speed","WV4","AN5Loc","AN5Speed","WV5"]]
+                #latest error is right here, says can't concatenate because dimensions aren't the same
+                p1 = np.concatenate((p1,p2), axis=0);
+                np.savetxt(f,p1, delimiter=',',fmt="%s")
+        else:
+            os.rename(h.logdir + '/processed/' + f, os.getcwd() + '/processedData/' + f)
+
+
+
+
