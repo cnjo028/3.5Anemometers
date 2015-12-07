@@ -34,6 +34,7 @@ class parse(object):
             os.chdir(self.logdir)
             if(self.reheader):
                 os.chdir(self.logdir+ '/processed')
+
             else:
                 os.chdir(self.datapath)
             if f[0] != '.':
@@ -180,8 +181,11 @@ if __name__ == "__main__":
                 print p2;
                 p2 = p2[["AN3Loc","AN3Speed","WV3","AN4Loc","AN4Speed","WV4","AN5Loc","AN5Speed","WV5"]]
                 #latest error is right here, says can't concatenate because dimensions aren't the same
-                p1 = np.concatenate((p1,p2), axis=0);
-                np.savetxt(f,p1, delimiter=',',fmt="%s")
+                combined = pd.concat([p1["Date/Time"],p1["AN0Loc"],p1["AN0Speed"],p1["WV0"],p1['AN1Loc'],p1['AN1Speed'],p1['WV1'],p1['AN2Loc'],p1['AN2Speed'],p1['WV2'],p2["AN3Loc"],p2["AN3Speed"],p2["WV3"],p2["AN4Loc"],p2["AN4Speed"],p2["WV4"],p2["AN5Loc"],p2["AN5Speed"],p2["WV5"]], axis=1)
+                #p1 = [p1, p2["AN3Loc"],p2["AN3Speed"],p2["WV3"],p2["AN4Loc"],p2["AN4Speed"],p2["WV4"],p2["AN5Loc"],p2["AN5Speed"],p2["WV5"]]
+                headers = np.array(["Date/Time","AN0Loc","AN0Speed","WV0","AN1Loc","AN1Speed","WV1","AN2Loc","AN2Speed","WV2","AN3Loc","AN3Speed","WV3","AN4Loc","AN4Speed","WV4","AN5Loc","AN5Speed","WV5"])[np.newaxis]
+                combined = np.concatenate((headers,combined), axis=0);
+                np.savetxt(h.homedir + '/processedData/' + f,combined, delimiter=',',fmt="%s")
         else:
             os.rename(h.logdir + '/processed/' + f, os.getcwd() + '/processedData/' + f)
 
