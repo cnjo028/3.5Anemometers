@@ -94,7 +94,7 @@ class parse(object):
                 s = datetime.strptime(times[j][0], "%Y-%m-%d %H:%M:%S")
                 for k in range(0,times.shape[0]):
                     tread = datetime.strptime(times[k][0],"%Y-%m-%d %H:%M:%S")
-                    if tread < log1:
+                    if self.dir == '/log1':
                         loc0 = np.append(loc0,"front dome");
                         loc1 = np.append(loc1,"lower right");
                         loc2 = np.append(loc2,"lower left");
