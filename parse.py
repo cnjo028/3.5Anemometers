@@ -44,6 +44,9 @@ class parse(object):
                     a = open(f, 'rt')
                     p = pd.read_csv(a);
                     #headers = np.array(["Date/Time","AN0Speed","AN0Gust","AN0Pulse","AN1Speed","AN1Gust","AN1Pulse","AN2Speed","AN2Gust","AN2Pulse","CNT0","CNT1","CNT2","Wdir(Not Used)","Analog0","WV0","WV1","TempC","WV2","Analog5","Analog6","Analog7","?(Not Used)"])[np.newaxis];
+                    if not p[0][0].startswith('201')
+                        np.delete(p,0,0)
+                                        
                     a = np.concatenate((headers,p), axis=0);
                     if(self.reheader == False):
                         os.chdir(self.logdir + '/withHeaders')
