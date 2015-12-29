@@ -44,7 +44,6 @@ class parse(object):
                 if not (os.stat(f).st_size == 0):
                     a = open(f, 'rt')
                     p = pd.read_csv(a);
-                    #headers = np.array(["Date/Time","AN0Speed","AN0Gust","AN0Pulse","AN1Speed","AN1Gust","AN1Pulse","AN2Speed","AN2Gust","AN2Pulse","CNT0","CNT1","CNT2","Wdir(Not Used)","Analog0","WV0","WV1","TempC","WV2","Analog5","Analog6","Analog7","?(Not Used)"])[np.newaxis];
                     test = p.ix[:0]
                     testTime = test.ix[:,0]
                     if not self.reheader and not testTime[0].startswith('201'):
