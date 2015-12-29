@@ -46,8 +46,9 @@ class parse(object):
                     a = open(f, 'rt')
                     p = pd.read_csv(a);
                     test = p.ix[:0]
-                    testTime = test.ix[:,0]
-                    if not self.reheader and not testTime[0].startswith('201') and not testTime.size == 0:
+                    test = test.iloc[0]
+		    testTime = test.ix[:,0]
+                    if not self.reheader and not testTime[0].startswith('201'):
                         p = p.ix[1:] 
                     a = np.concatenate((headers,p), axis=0);
                     if(self.reheader == False):
