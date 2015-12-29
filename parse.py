@@ -46,7 +46,7 @@ class parse(object):
                     p = pd.read_csv(a);
                     #headers = np.array(["Date/Time","AN0Speed","AN0Gust","AN0Pulse","AN1Speed","AN1Gust","AN1Pulse","AN2Speed","AN2Gust","AN2Pulse","CNT0","CNT1","CNT2","Wdir(Not Used)","Analog0","WV0","WV1","TempC","WV2","Analog5","Analog6","Analog7","?(Not Used)"])[np.newaxis];
                     test = p.ix[:0]
-                    testTime = datetime.strptime(test.ix[:,0],"2011-11-07","%Y-%m-%d")
+                    testTime = test.ix[:,0]
                     if not self.reheader and not testTime[0].startswith('201'):
                         p = p.ix[1:] 
                     a = np.concatenate((headers,p), axis=0);
