@@ -39,6 +39,7 @@ class parse(object):
             else:
                 os.chdir(self.datapath)
             if f[0] != '.':
+		print f[0]
                 self.prog = self.prog + 1;
                 #progress();
                 if not (os.stat(f).st_size == 0):
@@ -46,7 +47,7 @@ class parse(object):
                     p = pd.read_csv(a);
                     test = p.ix[:0]
                     testTime = test.ix[:,0]
-                    if not self.reheader and not testTime[0].startswith('201'):
+                    if not self.reheader and not testTime[0].startswith('201') and not testTime.size == 0:
                         p = p.ix[1:] 
                     a = np.concatenate((headers,p), axis=0);
                     if(self.reheader == False):
@@ -65,9 +66,7 @@ class parse(object):
         print "headers"
         self.path = self.logdir + '/withHeaders';
         os.chdir(self.path)
-        print os.getcwd()
         self.files = np.array(os.listdir(self.path))
-        print self.files
         midrt0st = datetime.strptime("2011-11-07","%Y-%m-%d")
         midrt0ed = datetime.strptime("2012-05-01","%Y-%m-%d")
         roof2st = datetime.strptime("2011-11-07","%Y-%m-%d")
@@ -87,10 +86,8 @@ class parse(object):
             loc0 = np.array((''), dtype=str);
             loc1 = np.array((''), dtype=str);
             loc2 = np.array((''), dtype=str);
-            print self.files
-            print f[0]
             if f[0] != '.':
-                print f[0]
+		print f[0]
                 sys.stdout.flush()
                 time.sleep(2)
                 a = pd.read_csv(f)
