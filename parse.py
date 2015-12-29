@@ -49,7 +49,6 @@ class parse(object):
                     testTime = datetime.strptime(test.ix[:,0],"2011-11-07","%Y-%m-%d")
                     if not self.reheader and not testTime[0].startswith('201'):
                         p = p.ix[1:] 
-                                       
                     a = np.concatenate((headers,p), axis=0);
                     if(self.reheader == False):
                         os.chdir(self.logdir + '/withHeaders')
