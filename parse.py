@@ -43,21 +43,28 @@ class parse(object):
                 #progress();
                 if not (os.stat(f).st_size == 0):
                     a = open(f, 'rt')
-                    p = pd.read_csv(a);
+                    data = pd.read_csv(a, nrows=1);
                     #headers = np.array(["Date/Time","AN0Speed","AN0Gust","AN0Pulse","AN1Speed","AN1Gust","AN1Pulse","AN2Speed","AN2Gust","AN2Pulse","CNT0","CNT1","CNT2","Wdir(Not Used)","Analog0","WV0","WV1","TempC","WV2","Analog5","Analog6","Analog7","?(Not Used)"])[np.newaxis];
-                    test = p.ix[:0]
-                    cols = list(test.columns.values)
-                    if not self.reheader and not cols[0].startswith('201'):
+                    #test = p.ix[:0]
+                    cols = list(data.columns.values)
+                    print cols
+                    if not cols[0].startswith('201') and not self.reheader:
+                        print 'caught'
                         a.close()
-                        with open(f,'r') as fil:
-                            with open('out.csv','w') as f1:
-                                fil.next()
-                                for line in fil:
-                                    f1.write(line)
-                        tempname = f
-                        os.remove(f)
-                        os.rename('out.csv',f)
-
+                        os.rename(f, self.homedir + '/trash/' + f)
+                        break
+                        #with open(f,'r') as fil:
+                        #    print 'doing the thing'
+                        #    with open('out.csv','w') as f1:
+                        #        fil.next()
+                        #        for line in fil:
+                        #            f1.write(line)
+                        #tempname = f
+                        #os.remove(f)
+                        #os.rename('out.csv',f)
+                        #a = open(f, 'rt')
+                    a = open(f, 'rt')
+                    p = pd.read_csv(a);
                     a = np.concatenate((headers,p), axis=0);
                     if(self.reheader == False):
                         os.chdir(self.logdir + '/withHeaders')
