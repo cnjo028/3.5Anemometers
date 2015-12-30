@@ -31,6 +31,7 @@ class parse(object):
     def addHeaders(self,headers):
         j = 0;
         for f in self.files: 
+            print f;
             os.chdir(self.logdir)
             if(self.reheader):
                 os.chdir(self.logdir+ '/processed')
@@ -38,6 +39,7 @@ class parse(object):
             else:
                 os.chdir(self.datapath)
             if f[0] != '.':
+                print f
                 self.prog = self.prog + 1;
                 #progress();
                 a = open(f, 'rt')
@@ -47,7 +49,7 @@ class parse(object):
                 if(self.reheader == False):
                     os.chdir(self.logdir + '/withHeaders')
                 np.savetxt(f,a, delimiter=',',fmt="%s")
-                print f;
+                #print f;
             j = j + 1;
         os.chdir(self.logdir)
 
