@@ -52,7 +52,9 @@ class parse(object):
                         print 'caught'
                         a.close()
                         os.rename(f, self.homedir + '/trash/' + f)
+                        self.files = np.array(os.listdir(self.datapath))
                         break
+
                         #with open(f,'r') as fil:
                         #    print 'doing the thing'
                         #    with open('out.csv','w') as f1:
