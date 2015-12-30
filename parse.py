@@ -31,7 +31,6 @@ class parse(object):
     def addHeaders(self,headers):
         j = 0;
         for f in self.files: 
-            print f;
             os.chdir(self.logdir)
             if(self.reheader):
                 os.chdir(self.logdir+ '/processed')
@@ -39,17 +38,17 @@ class parse(object):
             else:
                 os.chdir(self.datapath)
             if f[0] != '.':
-                print f
                 self.prog = self.prog + 1;
                 #progress();
-                a = open(f, 'rt')
-                p = pd.read_csv(a);
-                #headers = np.array(["Date/Time","AN0Speed","AN0Gust","AN0Pulse","AN1Speed","AN1Gust","AN1Pulse","AN2Speed","AN2Gust","AN2Pulse","CNT0","CNT1","CNT2","Wdir(Not Used)","Analog0","WV0","WV1","TempC","WV2","Analog5","Analog6","Analog7","?(Not Used)"])[np.newaxis];
-                a = np.concatenate((headers,p), axis=0);
-                if(self.reheader == False):
-                    os.chdir(self.logdir + '/withHeaders')
-                np.savetxt(f,a, delimiter=',',fmt="%s")
-                #print f;
+                if not (os.stat(f).st_size == 0):
+                    a = open(f, 'rt')
+                    p = pd.read_csv(a);
+                    #headers = np.array(["Date/Time","AN0Speed","AN0Gust","AN0Pulse","AN1Speed","AN1Gust","AN1Pulse","AN2Speed","AN2Gust","AN2Pulse","CNT0","CNT1","CNT2","Wdir(Not Used)","Analog0","WV0","WV1","TempC","WV2","Analog5","Analog6","Analog7","?(Not Used)"])[np.newaxis];
+                    a = np.concatenate((headers,p), axis=0);
+                    if(self.reheader == False):
+                        os.chdir(self.logdir + '/withHeaders')
+                    np.savetxt(f,a, delimiter=',',fmt="%s")
+                    print f;
             j = j + 1;
         os.chdir(self.logdir)
 
@@ -190,6 +189,5 @@ if __name__ == "__main__":
                 np.savetxt(h.homedir + '/processedData/' + f + '_processed',combined, delimiter=',',fmt="%s")
         else:
             os.rename(h.logdir + '/processed/' + f, os.getcwd() + '/processedData/' + f + '_processed')
-
 
 
