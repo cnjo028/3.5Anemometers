@@ -46,9 +46,22 @@ class parse(object):
                     a = open(f, 'rt')
                     p = pd.read_csv(a);
                     test = p.ix[:0]
-		    cols = list(test.columns.values)
+		            cols = list(test.columns.values)
+                    
+
                     if not self.reheader and not cols[0].startswith('201'):
-                        p = p.ix[1:] 
+                        #p = p.ix[1:] 
+                        with open(f,'r') as fil:
+                            with open('out.csv','w') as f1:
+                                fil.next()
+                                for line in fil:
+                                f1.write(line)
+                        tempname = f
+                        os.remove(f)
+                        os.rename('out.csv',f)
+
+
+
                     a = np.concatenate((headers,p), axis=0);
                     if(self.reheader == False):
                         os.chdir(self.logdir + '/withHeaders')
