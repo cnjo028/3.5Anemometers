@@ -45,6 +45,19 @@ class parse(object):
                     a = open(f, 'rt')
                     p = pd.read_csv(a);
                     #headers = np.array(["Date/Time","AN0Speed","AN0Gust","AN0Pulse","AN1Speed","AN1Gust","AN1Pulse","AN2Speed","AN2Gust","AN2Pulse","CNT0","CNT1","CNT2","Wdir(Not Used)","Analog0","WV0","WV1","TempC","WV2","Analog5","Analog6","Analog7","?(Not Used)"])[np.newaxis];
+                    test = p.ix[:0]
+                    cols = list(test.columns.values)
+                    if not self.reheader and not cols[0].startswith('201'):
+                        a.close()
+                        with open(f,'r') as fil:
+                            with open('out.csv','w') as f1:
+                                fil.next()
+                                for line in fil:
+                                    f1.write(line)
+                        tempname = f
+                        os.remove(f)
+                        os.rename('out.csv',f)
+
                     a = np.concatenate((headers,p), axis=0);
                     if(self.reheader == False):
                         os.chdir(self.logdir + '/withHeaders')
@@ -62,9 +75,7 @@ class parse(object):
         print "headers"
         self.path = self.logdir + '/withHeaders';
         os.chdir(self.path)
-        print os.getcwd()
         self.files = np.array(os.listdir(self.path))
-        print self.files
         midrt0st = datetime.strptime("2011-11-07","%Y-%m-%d")
         midrt0ed = datetime.strptime("2012-05-01","%Y-%m-%d")
         roof2st = datetime.strptime("2011-11-07","%Y-%m-%d")
@@ -84,7 +95,7 @@ class parse(object):
             loc0 = np.array((''), dtype=str);
             loc1 = np.array((''), dtype=str);
             loc2 = np.array((''), dtype=str);
-            print self.files
+            print f
             print f[0]
             if f[0] != '.':
                 print f[0]
