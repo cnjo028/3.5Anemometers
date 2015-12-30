@@ -31,6 +31,7 @@ class parse(object):
     def addHeaders(self,headers):
         j = 0;
         for f in self.files: 
+	    print f
             os.chdir(self.logdir)
             if(self.reheader):
                 os.chdir(self.logdir+ '/processed')
