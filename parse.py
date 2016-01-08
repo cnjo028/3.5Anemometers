@@ -90,7 +90,7 @@ class parse(object):
         roof2st = datetime.strptime("2011-11-07","%Y-%m-%d")
         roof2ed = datetime.strptime("2012-01-05","%Y-%m-%d")
         stair2st = datetime.strptime("2012-01-06","%Y-%m-%d")
-        stair2ed = datetime.strptime("2012-02-03","%Y-%m-%d")
+        stair2ed = datetime.strptime("2012-03-31","%Y-%m-%d")
         catrt2st = datetime.strptime("2012-03-31","%Y-%m-%d")
         catrt2ed = datetime.strptime("2012-05-01","%Y-%m-%d")
         catlt2st = datetime.strptime("2011-08-24","%Y-%m-%d")
