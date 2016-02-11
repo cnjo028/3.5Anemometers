@@ -90,7 +90,7 @@ class parse(object):
         roof2st = datetime.strptime("2011-11-07","%Y-%m-%d")
         roof2ed = datetime.strptime("2012-01-05","%Y-%m-%d")
         stair2st = datetime.strptime("2012-01-06","%Y-%m-%d")
-        stair2ed = datetime.strptime("2012-02-03","%Y-%m-%d")
+        stair2ed = datetime.strptime("2012-03-31","%Y-%m-%d")
         catrt2st = datetime.strptime("2012-03-31","%Y-%m-%d")
         catrt2ed = datetime.strptime("2012-05-01","%Y-%m-%d")
         catlt2st = datetime.strptime("2011-08-24","%Y-%m-%d")
@@ -177,18 +177,24 @@ class parse(object):
         print('\r>> progress : %i/%i' % (self.prog, self.filestat.shape[0]))
         sys.stdout.flush()
         time.sleep(2)
-        
+ 
+    def updateFiles(self):
+	self.files = np.array(os.listdir(self.logdir + '/processed'))        
         
 if __name__ == "__main__":
     h = parse('/log1');
     l1files = h.files;
     h.addHeaders(headers = np.array(["Date/Time","AN0Speed","AN0Gust","AN0Pulse","AN1Speed","AN1Gust","AN1Pulse","AN2Speed","AN2Gust","AN2Pulse","CNT0","CNT1","CNT2","Wdir(Not Used)","Analog0","WV0","WV1","TempC","WV2","Analog5","Analog6","Analog7","?(Not Used)"])[np.newaxis]);
     h.reorder();
+    h.updateFiles();
+    l1files = h.files;
     os.chdir(h.homedir);
     g = parse('/log2');
     l2files = g.files;
     g.addHeaders(headers = np.array(["Date/Time","AN3Speed","AN3Gust","AN3Pulse","AN4Speed","AN4Gust","AN4Pulse","AN5Speed","AN5Gust","AN5Pulse","CNT3","CNT4","CNT5","Wdir(Not Used)","Analog0","WV3","WV4","TempC","WV5","Analog5","Analog6","Analog7","?(Not Used)"])[np.newaxis]);
     g.reorder();
+    g.updateFiles();
+    l2files = g.files;
     os.chdir(h.homedir);
     os.mkdir('processedData')
 
